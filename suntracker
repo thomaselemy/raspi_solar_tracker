@@ -12,6 +12,7 @@ sen0 = 12 # topleft
 sen1 = 16 # topright
 sen2 = 20 # downleft
 sen3 = 21 # downright
+sen4 = 26 # ambiant light sensor
 
 # Pin Setup:
 GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
@@ -25,8 +26,9 @@ GPIO.setup(motorout3, GPIO.OUT) # PWM pin set as output
 
 print("Press CTRL+C to exit")
 try:
-    while 1:
-        if sen2 > sen3 :GPIO.output(motorout0, GPIO.HIGH)
+    while (sen4 == 1):
+   
+   if sen2 > sen3 :GPIO.output(motorout0, GPIO.HIGH)
 
   if (sen3 > sen2) :GPIO.output(motorout0, GPIO.HIGH)
 
