@@ -4,5 +4,4 @@ sun tracker for a solar panel using the raspberry pi, 4 digital photoresistors a
 
 
 to get on pi
-git clone 
-python suntracker
+git clone https://github.com/thomaselemy/raspberry-pi-sun-tracker.git
