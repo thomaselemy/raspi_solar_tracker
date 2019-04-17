@@ -3,10 +3,10 @@ import RPi.GPIO as GPIO
 import time
 
 # Pin Definitons:
-motorout0 = 05 # fwd
-motorout1 = 06 # rev
-motorout2 = 13 # fwd
-motorout3 = 19 # rev
+motorout0 = 05 # fwd pan
+motorout1 = 06 # rev pan
+motorout2 = 13 # fwd tilt
+motorout3 = 19 # rev tilt
 
 sen0 = 12 # topleft
 sen1 = 16 # topright
