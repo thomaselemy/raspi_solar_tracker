@@ -8,4 +8,5 @@ sudo apt-get install pip
   
   sudo pip install git+git://github.com/chrisb2/pi_ina219.git
 # To run
-python raspberry-pi-sun-tracker
+python suntracker
+python power_monitoring
