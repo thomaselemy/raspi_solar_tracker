@@ -28,7 +28,7 @@ print("Press CTRL+C to exit")
 try:
     while (sen4 == 1):
    
-   if sen2 > sen3 :GPIO.output(motorout0, GPIO.HIGH)
+  if sen2 > sen3 :GPIO.output(motorout0, GPIO.HIGH)
 
   if (sen3 > sen2) :GPIO.output(motorout0, GPIO.HIGH)
 
