@@ -9,4 +9,4 @@ sudo apt-get install pip
   sudo pip install git+git://github.com/chrisb2/pi_ina219.git
 # To run
 python suntracker
-python power_monitoring
+  python power_monitoring
