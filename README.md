@@ -4,9 +4,11 @@ sun tracker for a solar panel using the raspberry pi, 5 digital photoresistors (
 
 # Installation 
 sudo apt-get install pip
-  git clone https://github.com/thomaselemy/raspberry-pi-sun-tracker.git
+
+    git clone https://github.com/thomaselemy/raspberry-pi-sun-tracker.git
   
-  sudo pip install git+git://github.com/chrisb2/pi_ina219.git
+    sudo pip install git+git://github.com/chrisb2/pi_ina219.git
 # To run
-python suntracker
-  python power_monitoring
+    python suntracker
+
+    python power_monitoring
