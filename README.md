@@ -16,4 +16,5 @@ cd raspi_solar_tracker
     python suntracker
 
 for moitoring power consumtion
-    python power_monitoring
+
+      python power_monitoring
