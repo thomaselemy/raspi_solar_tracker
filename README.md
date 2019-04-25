@@ -13,8 +13,8 @@ sudo apt-get install pip
 # To run
 cd raspi_solar_tracker
 
-    python suntracker
+    python suntracker.py
 
 for moitoring power consumtion
 
-      python power_monitoring
+      python power_monitoring.py
