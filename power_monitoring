@@ -6,6 +6,9 @@ MAX_EXPECTED_AMPS = 2.0
 ina = INA219(SHUNT_OHMS, MAX_EXPECTED_AMPS)
 ina.configure(ina.RANGE_16V)
 
+
+file1 = open("myfile.txt","w")
+
 def read_ina219():
     try:
         print('Bus Voltage: {0:0.2f}V'.format(ina.voltage()))
@@ -14,16 +17,12 @@ def read_ina219():
         print('Shunt Voltage: {0:0.2f}mV\n'.format(ina.shunt_voltage()))
         # Program to show various ways to read and
         # write data in a file.
-        file1 = open("myfile.txt","w")
-        L = ('{0:0.2f}V'.format(ina.voltage())), ('{0:0.2f}mA'.format(ina.current())), ('{0:0.2f}mW\n'.format(ina.power()))
-# \n is placed to indicate EOL (End of Line)
-        file1.write("Hello \n")
+        L = ('{0:0.2f} V\t'.format(ina.voltage())), ('{0:0.2f} mA  \t'.format(ina.current())), ('{0:0.2f} mW\n'.format(ina.power()))
+        # \n is placed to indicate EOL (End of Line)
         file1.writelines(L)
-        file1.close() #to change file access modes
     except DeviceRangeError as e:
         # Current out of device range with specified shunt resister
         print(e)
-
 while 1:
-    read_ina219()
-    sleep(1)
+        read_ina219()
+        sleep(0.5)
