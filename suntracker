@@ -3,46 +3,46 @@ import RPi.GPIO as GPIO
 import time
 
 # Pin Definitons:
-motorout0 = 05 # fwd pan
-motorout1 = 06 # rev pan
-motorout2 = 13 # fwd tilt
-motorout3 = 19 # rev tilt
+motorout0 = 5  # fwd pan
+motorout1 = 6  # rev pan
+motorout2 = 13  # fwd tilt
+motorout3 = 19  # rev tilt
 
-sen0 = 12 # topleft
-sen1 = 16 # topright
-sen2 = 20 # downleft
-sen3 = 21 # downright
-sen4 = 26 # ambiant light sensor
+sen0 = 12  # topleft
+sen1 = 16  # topright
+sen2 = 20  # downleft
+sen3 = 21  # downright
+sen4 = 26  # ambiant light sensor
 
 # Pin Setup:
-GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
-GPIO.setup(motorout0, GPIO.OUT) # LED pin set as output
-GPIO.setup(motorout1, GPIO.OUT) # PWM pin set as output
-GPIO.setup(motorout2, GPIO.OUT) # PWM pin set as output
-GPIO.setup(motorout3, GPIO.OUT) # PWM pin set as output
+GPIO.setmode(GPIO.BCM)  # Broadcom pin-numbering scheme
+GPIO.setup(motorout0, GPIO.OUT)  # LED pin set as output
+GPIO.setup(motorout1, GPIO.OUT)  # PWM pin set as output
+GPIO.setup(motorout2, GPIO.OUT)  # PWM pin set as output
+GPIO.setup(motorout3, GPIO.OUT)  # PWM pin set as output
 
 # Initial state for LEDs:
 
 
 print("Press CTRL+C to exit")
-try:
-    while (sen4 == 1):
-   
-  if sen2 > sen3 :GPIO.output(motorout0, GPIO.HIGH)
+try :
+        while (sen4 == 1 ) :
 
-  if (sen3 > sen2) :GPIO.output(motorout0, GPIO.HIGH)
+            if sen0 & sen1 > sen2 & sen3 : GPIO.output(motorout2, GPIO.HIGH)
 
-  if (sen0 < sen1): GPIO.output(motorout1, GPIO.HIGH)
+            if sen0 & sen1 < sen2 & sen3 : GPIO.output(motorout3, GPIO.HIGH)
 
-  if (sen3 < sen2): GPIO.output(motorout, GPIO.HIGH)
+            if sen0 & sen2 > sen1 & sen3 : GPIO.output(motorout1, GPIO.HIGH)
 
-  if (topleft > downleft): GPIO.output(motorout0, GPIO.HIGH)
+            if sen0 & sen2 < sen1 & sen3 : GPIO.output(motorout0, GPIO.HIGH)
 
-  if (topright > downright): GPIO.output(motorout0, GPIO.HIGH)
+    #if (topleft > downleft) : GPIO.output(motorout0, GPIO.HIGH)
 
-  if (topleft < downleft): GPIO.output(motorout2, GPIO.HIGH)
+    #if (topright > downright) : GPIO.output(motorout0, GPIO.HIGH)
 
-  if (topright < downright): GPIO.output(motorout3, GPIO.HIGH)
+    #if (topleft < downleft) : GPIO.output(motorout2, GPIO.HIGH)
 
-except KeyboardInterrupt: # If CTRL+C is pressed, exit cleanly:
-    GPIO.cleanup() # cleanup all GPIO
+    #if (topright < downright) : GPIO.output(motorout3, GPIO.HIGH)
+            #time.sleep(600)
+except KeyboardInterrupt:  # If CTRL+C is pressed, exit cleanly:
+    GPIO.cleanup()  # cleanup all GPIO
