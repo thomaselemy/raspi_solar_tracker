@@ -3,46 +3,96 @@ import RPi.GPIO as GPIO
 import time
 
 # Pin Definitons:
-motorout0 = 5  # fwd pan
-motorout1 = 6  # rev pan
-motorout2 = 13  # fwd tilt
-motorout3 = 19  # rev tilt
+motorTfwd = 5  # fwd pan
+motorTrev = 6  # rev pan
 
+motorPccw = 13  # fwd tilt
+motorPcw = 19  # rev tilt
+
+#light sensors give a low signal(0v when in sunlight) and a high signal(3.3v in full sunlight)
 sen0 = 12  # topleft
 sen1 = 16  # topright
 sen2 = 20  # downleft
 sen3 = 21  # downright
 sen4 = 26  # ambiant light sensor
 
+allsensors = [sen0, sen1, sen2, sen3]
+allmotors = [motorTfwd, motorTrev, motorPccw, motorPcw]
+
+#limit switches so not to over rotate
+limittfwd = 15 #limit switch for tiltfwd
+limittrev = 17 # limit switch for tiltrev
+
+limitPccw = 19 #limit switch for panccw
+limitPcw = 18 #limit switch for pancw
+
 # Pin Setup:
 GPIO.setmode(GPIO.BCM)  # Broadcom pin-numbering scheme
-GPIO.setup(motorout0, GPIO.OUT)  # LED pin set as output
-GPIO.setup(motorout1, GPIO.OUT)  # PWM pin set as output
-GPIO.setup(motorout2, GPIO.OUT)  # PWM pin set as output
-GPIO.setup(motorout3, GPIO.OUT)  # PWM pin set as output
+GPIO.setup(motorTfwd, GPIO.OUT)  #  pin set as output
+GPIO.setup(motorTrev, GPIO.OUT)  #  pin set as output
+GPIO.setup(motorPccw, GPIO.OUT)  #  pin set as output
+GPIO.setup(motorPcw, GPIO.OUT)  #  pin set as output
 
-# Initial state for LEDs:
+GPIO.setup(sen0, GPIO.input)  #  pin set as input
+GPIO.setup(sen1, GPIO.input)  #  pin set as input
+GPIO.setup(sen2, GPIO.input)  #  pin set as input
+GPIO.setup(sen3, GPIO.input)  #  pin set as input
+GPIO.setup(sen2, GPIO.input)  #  pin set as input
+GPIO.setup(sen3, GPIO.input)  #  pin set as input
 
+# Initial state for motors:
+GPIO.output(motorTfwd, GPIO.LOW)
+GPIO.output(motorTrev, GPIO.LOW)
+GPIO.output(motorPccw, GPIO.LOW)
+GPIO.output(motorPcw, GPIO.LOW)
 
 print("Press CTRL+C to exit")
 try :
-        while (sen4 == 1 ) :
+        while True:
+            
+            if allsensors == True: GPIO.output(allmotors, GPIO.LOW), time.sleep(20) #it must be dark, dont do anything,some delay so not waist energy looking for sun
 
-            if sen0 & sen1 > sen2 & sen3 : GPIO.output(motorout2, GPIO.HIGH)
+            # if sen0 == True and sen1 and sen2 and sen3 == False: GPIO.output(motorTfwd and motorPcw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen1 == True and sen0 and sen2 and sen3 == False: GPIO.output(motorTfwd and motorPccw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen2 == True and sen0 and sen1 and sen3 == False: GPIO.output(motorTrev and motorPcw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen1 == True and sen0 and sen2 and sen3 == False: GPIO.output(motorTfwd and motorPccw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen0 == True and sen1 == True: GPIO.output(motorTrev, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen0 == True and sen2 == True: GPIO.output(motorPcw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen1 == True and sen3 == True: GPIO.output(motorPccw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen0 == True and sen1 == True: GPIO.output(motorPcw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen0 == True and sen1 == True: GPIO.output(motorPcw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen0 == True and sen1 == True: GPIO.output(motorPcw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen0 == True and sen1 == True : GPIO.output(motorPcw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen0 == True and sen1 == True : GPIO.output(motorPcw, GPIO.HIGH)
+            # time.sleep(0.2)
+            # 
+            # if sen0 == True and sen1 == True : GPIO.output(motorPcw, GPIO.HIGH)
+            # time.sleep(0.2)
 
-            if sen0 & sen1 < sen2 & sen3 : GPIO.output(motorout3, GPIO.HIGH)
 
-            if sen0 & sen2 > sen1 & sen3 : GPIO.output(motorout1, GPIO.HIGH)
 
-            if sen0 & sen2 < sen1 & sen3 : GPIO.output(motorout0, GPIO.HIGH)
-
-    #if (topleft > downleft) : GPIO.output(motorout0, GPIO.HIGH)
-
-    #if (topright > downright) : GPIO.output(motorout0, GPIO.HIGH)
-
-    #if (topleft < downleft) : GPIO.output(motorout2, GPIO.HIGH)
-
-    #if (topright < downright) : GPIO.output(motorout3, GPIO.HIGH)
             #time.sleep(600)
 except KeyboardInterrupt:  # If CTRL+C is pressed, exit cleanly:
-    GPIO.cleanup()  # cleanup all GPIO
+        GPIO.cleanup()  # cleanup all GPIO
