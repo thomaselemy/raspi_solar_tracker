@@ -20,11 +20,11 @@ allsensors = [sen0, sen1, sen2, sen3]
 allmotors = [motorTfwd, motorTrev, motorPccw, motorPcw]
 
 #limit switches so not to over rotate
-limittfwd = 15 #limit switch for tiltfwd
-limittrev = 17 # limit switch for tiltrev
+limittfwd = 23 #limit switch for tiltfwd
+limittrev = 24 # limit switch for tiltrev
 
-limitPccw = 19 #limit switch for panccw
-limitPcw = 18 #limit switch for pancw
+limitPccw = 17 #limit switch for panccw
+limitPcw = 27 #limit switch for pancw
 
 # Pin Setup:
 GPIO.setmode(GPIO.BCM)  # Broadcom pin-numbering scheme
@@ -33,66 +33,66 @@ GPIO.setup(motorTrev, GPIO.OUT)  #  pin set as output
 GPIO.setup(motorPccw, GPIO.OUT)  #  pin set as output
 GPIO.setup(motorPcw, GPIO.OUT)  #  pin set as output
 
-GPIO.setup(sen0, GPIO.input)  #  pin set as input
-GPIO.setup(sen1, GPIO.input)  #  pin set as input
-GPIO.setup(sen2, GPIO.input)  #  pin set as input
-GPIO.setup(sen3, GPIO.input)  #  pin set as input
-GPIO.setup(sen2, GPIO.input)  #  pin set as input
-GPIO.setup(sen3, GPIO.input)  #  pin set as input
+GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP)  #  pin set as input
+GPIO.setup(sen1, GPIO.IN)  #  pin set as input
+GPIO.setup(sen2, GPIO.IN)  #  pin set as input
+GPIO.setup(sen3, GPIO.IN)  #  pin set as input
+#GPIO.setup(sen2, GPIO.input)  #  pin set as input
+#GPIO.setup(sen3, GPIO.IN)  #  pin set as input
 
 # Initial state for motors:
 GPIO.output(motorTfwd, GPIO.LOW)
 GPIO.output(motorTrev, GPIO.LOW)
 GPIO.output(motorPccw, GPIO.LOW)
 GPIO.output(motorPcw, GPIO.LOW)
-
+#senors are a 0 in full light, 1 for dark
 print("Press CTRL+C to exit")
 try :
         while True:
-            
-            if allsensors == True: GPIO.output(allmotors, GPIO.LOW), time.sleep(20) #it must be dark, dont do anything,some delay so not waist energy looking for sun
+            button_state = GPIO.input(12)
+            button_state1 = GPIO.input(20)
 
-            # if sen0 == True and sen1 and sen2 and sen3 == False: GPIO.output(motorTfwd and motorPcw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen1 == True and sen0 and sen2 and sen3 == False: GPIO.output(motorTfwd and motorPccw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen2 == True and sen0 and sen1 and sen3 == False: GPIO.output(motorTrev and motorPcw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen1 == True and sen0 and sen2 and sen3 == False: GPIO.output(motorTfwd and motorPccw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen0 == True and sen1 == True: GPIO.output(motorTrev, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen0 == True and sen2 == True: GPIO.output(motorPcw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen1 == True and sen3 == True: GPIO.output(motorPccw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen0 == True and sen1 == True: GPIO.output(motorPcw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen0 == True and sen1 == True: GPIO.output(motorPcw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen0 == True and sen1 == True: GPIO.output(motorPcw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen0 == True and sen1 == True : GPIO.output(motorPcw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen0 == True and sen1 == True : GPIO.output(motorPcw, GPIO.HIGH)
-            # time.sleep(0.2)
-            # 
-            # if sen0 == True and sen1 == True : GPIO.output(motorPcw, GPIO.HIGH)
-            # time.sleep(0.2)
+            button_stateleft = GPIO.input(12) + GPIO.input(20)
+            button_stateright = GPIO.input(16) + GPIO.input(21)
+
+            button_stateup = GPIO.input(12) + GPIO.input(16)
+            button_statedown = GPIO.input(20) + GPIO.input(21)
+
+            #Case1)
+            if button_stateup == True: #if state =true, then not in sun= rotate down till we in the sun
+                GPIO.output(6, True)
+                print('Button Pressed...')
+                time.sleep(0.2)
+            else : #rotate motor other direction
+                GPIO.output(6, False)
+
+            #Case2
+            #this rotates up until in the sun
+            if button_statedown == True:
+                GPIO.output(13, True)
+                print('Button1 Pressed...')
+                time.sleep(0.2)
+            else : #rotate motor other direction
+                GPIO.output(13, False)
+            #Case3
+            #this rotates the panel to the light source
+            if button_stateleft == True:
+                GPIO.output(5, True)
+                print('Buttonleft Pressed...')
+                time.sleep(0.2)
+            else : #rotate motor other direction
+                GPIO.output(5, False)
+            #Case4
+            if button_stateright == True:
+                GPIO.output(19, True)
+                print('Buttonleft Pressed...')
+                time.sleep(0.2)
+            else : #rotate motor other direction
+                GPIO.output(19, False)
+		#print "Stopping motor"
+	#	GPIO.cleanup()
+except :
+    GPIO.cleanup()
+    
 
 
-
-            #time.sleep(600)
-except KeyboardInterrupt:  # If CTRL+C is pressed, exit cleanly:
-        GPIO.cleanup()  # cleanup all GPIO
