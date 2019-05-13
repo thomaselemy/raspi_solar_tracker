@@ -3,11 +3,11 @@ import RPi.GPIO as GPIO
 import time
 
 # Pin Definitons:
-motorTfwd = 5  # fwd pan
-motorTrev = 6  # rev pan
+motorTfwd = 5  # fwd tilt
+motorTrev = 6  # rev tilt
 
-motorPccw = 13  # fwd tilt
-motorPcw = 19  # rev tilt
+motorPccw = 13  # rev pan
+motorPcw = 19  # fwd pan
 
 #light sensors give a low signal(0v when in sunlight) and a high signal(3.3v in full sunlight)
 sen0 = 12  # topleft
@@ -16,8 +16,8 @@ sen2 = 20  # downleft
 sen3 = 21  # downright
 sen4 = 26  # ambiant light sensor
 
-allsensors = [sen0, sen1, sen2, sen3]
-allmotors = [motorTfwd, motorTrev, motorPccw, motorPcw]
+#allsensors = [sen0, sen1, sen2, sen3]
+#allmotors = [motorTfwd, motorTrev, motorPccw, motorPcw]
 
 #limit switches so not to over rotate
 limittfwd = 23 #limit switch for tiltfwd
@@ -34,9 +34,10 @@ GPIO.setup(motorPccw, GPIO.OUT)  #  pin set as output
 GPIO.setup(motorPcw, GPIO.OUT)  #  pin set as output
 
 GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP)  #  pin set as input
-GPIO.setup(sen1, GPIO.IN)  #  pin set as input
-GPIO.setup(sen2, GPIO.IN)  #  pin set as input
-GPIO.setup(sen3, GPIO.IN)  #  pin set as input
+GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)  #  pin set as input
+GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_UP)  #  pin set as input
+GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_UP)  #  pin set as input
+GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 #GPIO.setup(sen2, GPIO.input)  #  pin set as input
 #GPIO.setup(sen3, GPIO.IN)  #  pin set as input
 
@@ -49,47 +50,80 @@ GPIO.output(motorPcw, GPIO.LOW)
 print("Press CTRL+C to exit")
 try :
         while True:
-            button_state = GPIO.input(12)
-            button_state1 = GPIO.input(20)
-
+            statetopleft = GPIO.input(12)
+            statetopright = GPIO.input(16)
+            statedownleft = GPIO.input(20)
+            statedownright = GPIO.input(21)
+            limitup = GPIO.input(23)
             button_stateleft = GPIO.input(12) + GPIO.input(20)
             button_stateright = GPIO.input(16) + GPIO.input(21)
 
-            button_stateup = GPIO.input(12) + GPIO.input(16)
+            button_stateup = GPIO.input(12) and GPIO.input(16)
             button_statedown = GPIO.input(20) + GPIO.input(21)
+            button_stateleftly = GPIO.input(12) + GPIO.input(16) + GPIO.input(20)
+            allmotors = GPIO.input(12) + GPIO.input(16) + GPIO.input(20) + GPIO.input(21)
 
             #Case1)
-            if button_stateup == True: #if state =true, then not in sun= rotate down till we in the sun
-                GPIO.output(6, True)
-                print('Button Pressed...')
-                time.sleep(0.2)
+            
+                
+                
+            
+            if statetopleft == False: 
+                    GPIO.output(13, False)
+                    print ('GPIO.input(23)')
+                    time.sleep(0.2)
             else : #rotate motor other direction
-                GPIO.output(6, False)
-
-            #Case2
-            #this rotates up until in the sun
-            if button_statedown == True:
-                GPIO.output(13, True)
+                    GPIO.output(13, True)
+                
+            if statetopright == False:
+                GPIO.output(13, False)
                 print('Button1 Pressed...')
                 time.sleep(0.2)
             else : #rotate motor other direction
-                GPIO.output(13, False)
-            #Case3
-            #this rotates the panel to the light source
-            if button_stateleft == True:
-                GPIO.output(5, True)
-                print('Buttonleft Pressed...')
+                GPIO.output(13, True)
+            if statedownleft == False: 
+                    GPIO.output(6, False)
+                    print ('GPIO.input(23)')
+                    time.sleep(0.2)
+            else : #rotate motor other direction
+                    GPIO.output(6, True)
+                
+            if statedownright == False:
+                GPIO.output(6, False)
+                print('Button1 Pressed...')
                 time.sleep(0.2)
             else : #rotate motor other direction
-                GPIO.output(5, False)
-            #Case4
-            if button_stateright == True:
-                GPIO.output(19, True)
-                print('Buttonleft Pressed...')
-                time.sleep(0.2)
+                GPIO.output(6, True)
+                
+            ###############################################
+                #pan
+            if statetopleft == False: 
+                    GPIO.output(5, False)
+                    print ('GPIO.input(23)')
+                    time.sleep(0.2)
             else : #rotate motor other direction
+                    GPIO.output(5, True)
+                
+            if statetopright == False:
                 GPIO.output(19, False)
-		#print "Stopping motor"
+                print('Button1 Pressed...')
+                time.sleep(0.2)
+            else : #rotate motor other direction
+                GPIO.output(19, True)
+            if statedownleft == False: 
+                    GPIO.output(5, False)
+                    print ('GPIO.input(23)')
+                    time.sleep(0.2)
+            else : #rotate motor other direction
+                    GPIO.output(5, True)
+                
+            if statedownright == False:
+                GPIO.output(19, False)
+                print('Button1 Pressed...')
+                time.sleep(0.2)
+            else : #rotate motor other direction
+                GPIO.output(19, True)
+
 	#	GPIO.cleanup()
 except :
     GPIO.cleanup()
