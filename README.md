@@ -1,6 +1,6 @@
 # raspi_solar_tracker
 sun tracker for a solar panel using the raspberry pi, 5 digital photoresistors (one in each corner with a L shaped shade + one for ambiant light if the sun goes down)
-
+https://www.youtube.com/watch?v=1mcSKFPuE6Q
 
 # Installation 
 sudo apt-get install pip
